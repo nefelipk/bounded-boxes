@@ -1,0 +1,150 @@
+=========================================================================
+
+Query 1 - Distance for each geometry that equally divides space that points lie into 
+
+SELECT i.id, dist INTO TABLE medium_distances
+FROM (SELECT i.id, PERCENTILE_CONT(0.5) 
+	  WITHIN GROUP (ORDER BY ST_Distance(i.geom, p.geom)) AS dist
+	  FROM geometries i, points p
+	  GROUP BY i.id) sq, geometries i, points p
+WHERE i.id = sq.id AND ST_DWithin(i.geom, p.geom, dist) = true
+GROUP BY i.id, dist;
+
+-------------------------------------------------------------------------
+
+Query 2 - Points within Query_1 distance from each geometry 
+
+SELECT i.id as shape_id, p.gid as point_id
+FROM geometries i, medium_distances d, points p
+WHERE i.id = d.id AND ST_DWithin(i.geom, p.geom, d.dist) = true;
+
+-------------------------------------------------------------------------
+
+Query 3 - Closest point to each geometry 
+
+SELECT i.id as shape_id, p.gid as point_id, MIN(ST_Distance(i.geom, p.geom)) AS min_dist 
+INTO TABLE actual_distances 
+FROM geometries i, points p GROUP BY i.id, p.gid; 
+
+SELECT a.* INTO TABLE minimum_distances 
+FROM actual_distances a 
+	LEFT OUTER JOIN actual_distances b 
+	ON a.shape_id = b.shape_id AND a.min_dist > b.min_dist 
+WHERE b.shape_id IS NULL; 
+
+-------------------------------------------------------------------------
+
+Query 4 - Points within Query_1 distance from each of the bounded rectangles of each combination of each geometry 
+
+SELECT i.shape_id as shape_id, i.combo_id as combo_id, p.gid as point_id
+FROM geometry_bounded i, medium_distances d, points p
+WHERE i.shape_id = d.id AND ST_DWithin(i.geom, p.geom, d.dist) = true
+GROUP BY i.shape_id, i.combo_id, p.gid;
+
+-------------------------------------------------------------------------
+
+Query 5 - Closest point to closest bounded rectangle of each combination of each geometry 
+
+SELECT i.shape_id as shape_id, i.combo_id as combo_id, p.gid as point_id, MIN(ST_Distance(i.geom, p.geom)) AS min_dist 
+INTO TABLE actual_bounded_distances 
+FROM geometry_bounded i, points p 
+GROUP BY i.shape_id, i.combo_id, p.gid; 
+
+SELECT a.* INTO TABLE minimum_bounded_distances 
+FROM actual_bounded_distances a 
+	LEFT OUTER JOIN actual_bounded_distances b 
+	ON a.shape_id = b.shape_id AND a.combo_id = b.combo_id AND a.min_dist > b.min_dist 
+WHERE b.shape_id IS NULL; 
+
+-------------------------------------------------------------------------
+
+Query 6 - Closest point to closest bounded rectangle of first combination of each geometry 
+
+SELECT i.shape_id as shape_id, p.gid as point_id, MIN(ST_Distance(i.geom, p.geom)) AS min_dist 
+INTO TABLE actual_bounded_distances 
+FROM geometry_bounded i, points p 
+WHERE i.combo_id = 0 
+GROUP BY i.shape_id, i.combo_id, p.gid; 
+
+SELECT a.* INTO TABLE minimum_bounded_distances 
+FROM actual_bounded_distances a 
+	LEFT OUTER JOIN actual_bounded_distances b 
+	ON a.shape_id = b.shape_id AND a.min_dist > b.min_dist 
+WHERE b.shape_id IS NULL;
+
+=========================================================================
+
+Query 7 - Distance for each geometry that equally divides space that polygons lie into
+
+SELECT i.id, dist INTO TABLE medium_distances
+FROM (SELECT i.id, PERCENTILE_CONT(0.5) 
+	  WITHIN GROUP (ORDER BY ST_Distance(i.geom, p.geom)) AS dist
+	  FROM geometries i, polygons p
+	  GROUP BY i.id) sq, geometries i, polygons p
+WHERE i.id = sq.id AND ST_DWithin(i.geom, p.geom, dist) = true
+GROUP BY i.id, dist;
+
+-------------------------------------------------------------------------
+
+Query 8 - Polygons within Query_7 distance from each geometry 
+
+SELECT i.id as shape_id, p.id as poly_id
+FROM geometries i, medium_distances d, polygons p
+WHERE i.id = d.id AND ST_DWithin(i.geom, p.geom, d.dist) = true;
+
+-------------------------------------------------------------------------
+
+Query 9 - Closest polygon to each geometry 
+
+SELECT i.id as shape_id, p.id as poly_id, MIN(ST_Distance(i.geom, p.geom)) AS min_dist 
+INTO TABLE actual_distances 
+FROM geometries i, polygons p GROUP BY i.id, p.id; 
+
+SELECT a.* INTO TABLE minimum_distances 
+FROM actual_distances a 
+	LEFT OUTER JOIN actual_distances b 
+	ON a.shape_id = b.shape_id AND a.min_dist > b.min_dist 
+WHERE b.shape_id IS NULL; 
+
+-------------------------------------------------------------------------
+
+Query 10 - Bounded rectangles within Query_7 distance from each of the bounded rectangles of each combination of each geometry
+
+SELECT i.shape_id as shape_id, i.combo_id as combo_id, p.shape_id as poly_id
+FROM geometry_bounded i, medium_distances d, polygon_bounded p
+WHERE p.combo_id = 0 AND i.shape_id = d.id AND ST_DWithin(i.geom, p.geom, d.dist) = true
+GROUP BY i.shape_id, i.combo_id, p.shape_id;
+
+-------------------------------------------------------------------------
+
+Query 11 - Closest bounded rectangle to closest bounded rectangle of each combination of each geometry 
+
+SELECT i.shape_id as shape_id, i.combo_id as combo_id, p.shape_id as poly_id, MIN(ST_Distance(i.geom, p.geom)) AS min_dist 
+INTO TABLE actual_bounded_distances 
+FROM geometry_bounded i, polygon_bounded p 
+WHERE p.combo_id = 0
+GROUP BY i.shape_id, i.combo_id, p.shape_id; 
+
+SELECT a.* INTO TABLE minimum_bounded_distances 
+FROM actual_bounded_distances a 
+   LEFT OUTER JOIN actual_bounded_distances b 
+   ON a.shape_id = b.shape_id AND a.combo_id = b.combo_id AND a.min_dist > b.min_dist 
+WHERE b.shape_id IS NULL; 
+
+-------------------------------------------------------------------------
+
+Query 12 - Closest bounded rectangle to closest bounded rectangle of first combination of each geometry 
+
+SELECT i.shape_id as shape_id, p.shape_id as poly_id, MIN(ST_Distance(i.geom, p.geom)) AS min_dist 
+INTO TABLE actual_bounded_distances 
+FROM geometry_bounded i, polygon_bounded p 
+WHERE i.combo_id = 0 AND p.combo_id = 0 
+GROUP BY i.shape_id, i.combo_id, p.shape_id; 
+
+SELECT a.* INTO TABLE minimum_bounded_distances 
+FROM actual_bounded_distances a 
+    LEFT OUTER JOIN actual_bounded_distances b 
+    ON a.shape_id = b.shape_id AND a.min_dist > b.min_dist 
+WHERE b.shape_id IS NULL;
+
+=========================================================================

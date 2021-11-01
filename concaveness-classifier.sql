@@ -4,12 +4,14 @@
 -- and https://stackoverflow.com/a/33820952/14413791
 -- Altered to calculate the maximum interior angle for each polygon.
 -------------------------------------------------------------------------
+-- PostgreSQL version 12 and PostGIS version 2.5 (or newer) are required
+-------------------------------------------------------------------------
 
 -- Create segments from points, calculate maximum angle for each line and decide whether it is convex or concave. It works for simple polygons and discards complex polygons with holes. It does not work for intersecting polygons. 
 
 select id, 
        max_value,
-into table convex_invekos   -- change to concave_invekos to keep the concave polygons
+into table convex     -- change to concave for concave polygons
 from (
 
   select id,
@@ -52,7 +54,7 @@ from (
                  select id,
                         (ST_Dump(ST_Boundary(geom))).geom as geom,
                         (ST_Dump(ST_Boundary(geom))).path as path -- To identify the polygon
-                  from invekos ) as pointlist ) as segments ) as max_angles ) as final
+                  from geometries ) as pointlist ) as segments ) as max_angles ) as final
 
 -- change to "isconvex = false" to keep the concave polygons
 where isconvex = true and polygon_num = 0 and max_value is not null;
