@@ -16,56 +16,41 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: postgis; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION postgis; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial types and functions';
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
 --
--- Name: postgis_points_random; Type: TABLE; Schema: public; Owner: postgres
+-- Name: random_1000_points; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.postgis_points_random (
-    record_id integer NOT NULL,
-    geom_points public.geometry(Point,4326)
+CREATE TABLE public.random_1000_points (
+    id integer,
+    geom public.geometry(Point,4326)
 );
 
 
-ALTER TABLE public.postgis_points_random OWNER TO postgres;
+ALTER TABLE public.random_1000_points OWNER TO postgres;
 
 --
--- Name: postgis_points_random_record_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Data for Name: random_1000_points; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.postgis_points_random_record_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.postgis_points_random_record_id_seq OWNER TO postgres;
-
---
--- Name: postgis_points_random_record_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.postgis_points_random_record_id_seq OWNED BY public.postgis_points_random.record_id;
-
-
---
--- Name: postgis_points_random record_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.postgis_points_random ALTER COLUMN record_id SET DEFAULT nextval('public.postgis_points_random_record_id_seq'::regclass);
-
-
---
--- Data for Name: postgis_points_random; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.postgis_points_random (record_id, geom_points) FROM stdin;
+COPY public.random_1000_points (id, geom) FROM stdin;
 1	0101000020E610000074FE485F108246C0A047F7E54AD31C40
 2	0101000020E61000008041EE9126F41BC092586932EF8058C0
 3	0101000020E61000004CDE055FE95B4CC03FF5A3C8B36A63C0
@@ -1067,21 +1052,6 @@ COPY public.postgis_points_random (record_id, geom_points) FROM stdin;
 999	0101000020E610000004C34248CBF549406E5BAD00C9635FC0
 1000	0101000020E610000004A151A4471755405DD7E4CAE74E62C0
 \.
-
-
---
--- Name: postgis_points_random_record_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.postgis_points_random_record_id_seq', 1000, true);
-
-
---
--- Name: postgis_points_random postgis_points_random_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.postgis_points_random
-    ADD CONSTRAINT postgis_points_random_pkey PRIMARY KEY (record_id);
 
 
 --

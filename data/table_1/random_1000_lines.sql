@@ -16,56 +16,41 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: postgis; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION postgis; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial types and functions';
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
 --
--- Name: postgis_linestrings_random; Type: TABLE; Schema: public; Owner: postgres
+-- Name: random_1000_lines; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.postgis_linestrings_random (
-    record_id integer NOT NULL,
-    geom_linestrings public.geometry(LineString,4326)
+CREATE TABLE public.random_1000_lines (
+    id integer,
+    geom public.geometry(LineString,4326)
 );
 
 
-ALTER TABLE public.postgis_linestrings_random OWNER TO postgres;
+ALTER TABLE public.random_1000_lines OWNER TO postgres;
 
 --
--- Name: postgis_linestrings_random_record_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Data for Name: random_1000_lines; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.postgis_linestrings_random_record_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.postgis_linestrings_random_record_id_seq OWNER TO postgres;
-
---
--- Name: postgis_linestrings_random_record_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.postgis_linestrings_random_record_id_seq OWNED BY public.postgis_linestrings_random.record_id;
-
-
---
--- Name: postgis_linestrings_random record_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.postgis_linestrings_random ALTER COLUMN record_id SET DEFAULT nextval('public.postgis_linestrings_random_record_id_seq'::regclass);
-
-
---
--- Data for Name: postgis_linestrings_random; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.postgis_linestrings_random (record_id, geom_linestrings) FROM stdin;
+COPY public.random_1000_lines (id, geom) FROM stdin;
 1	0102000020E610000006000000A047F7E54AD31C408041EE9126F41BC092586932EF8058C04CDE055FE95B4CC03FF5A3C8B36A63C0E4033A74DDE450C04AFCC4D40BE253C0A4E3C15205C64FC0147E79FB0E0E4840E0A8C719FBF34EC040EEE15A05A865408419A6E4176C4740
 2	0102000020E61000000900000088BCC2BE29805740E43CD6756ABE50406A1FD05D11AC62C066341D9FB5E34EC000C87745DFD1E4BFC8516EA9392B5040ACC4349271A956C0BC82743F8A2235C0508A603F530044C05887C2CB3872244004D0DC58554A5AC0EB124C3A1AE651C08047E367528545409E3C01AC398840409263521FF1D16140644C8608D32731406CE67FE45EA864C03488281C210634C0
 3	0102000020E61000000F000000B82A6A35A1265D4088A807E897365140D8F30CFA018F65400C036A52D1A547C03E10F08CC6A157C0889AF66DC4B042C0F807CA3991035E409C6BF4C8B59F42405B01B8AD2EAE65C0A0A7E8E410AF4BC0E04B6EADE3A213409EF1EA1EA3D050C0A82D3BFF90A66140386EF705019D48C0FA39000392FD5AC06CB85846C4C14040266EF8AA66C455C05006C57D9A1046C020C3F8241CB71CC0B6CCF5E6F2D652C07054A447662D6540A01FF42748A12CC0EAC9B60F8EA951C0C430F4F9C7C447C02CAFF17AE32D4FC000A89B7C77F41E40222B19A77FCD5DC0641A30FE3F1A4740388C30BF661D624068D86570F9D74740
@@ -1067,21 +1052,6 @@ COPY public.postgis_linestrings_random (record_id, geom_linestrings) FROM stdin;
 999	0102000020E61000000E00000030DAE2E2E15F2B4056E2EDC2A48E50401849D5E7135958400840455D5B8A51C0405EDC58390E02C02C09AC1983934BC0DE6B0D1B4BA05AC0A85D4888886949C0AC9915771B97624042EE19F0CD7855C02BBCF16735F160C04083C09A0360444010B3712C0E256240A472394EB4284B40905D299506F52B4058755246A3514DC03405520763284EC026C65D93C77651403808F73BCBD85340B8AF7AD2CBB752C0691FBC65F63C63C08C673BB00EBC49C0A0924E5D8F5D6540F05974726CA23A4045039A6C83CF62C072601F76B12B55C0A0ACB0DCD7101F40107451F3E07E53C0
 1000	0102000020E610000002000000BC57BF6923FD5AC04803939D10172140706D8AAEC93745C00CCF7C4D9CF63240
 \.
-
-
---
--- Name: postgis_linestrings_random_record_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.postgis_linestrings_random_record_id_seq', 1000, true);
-
-
---
--- Name: postgis_linestrings_random postgis_linestrings_random_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.postgis_linestrings_random
-    ADD CONSTRAINT postgis_linestrings_random_pkey PRIMARY KEY (record_id);
 
 
 --
