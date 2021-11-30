@@ -1,0 +1,49 @@
+from, to, time (s)
+1000 axis-aligned rectangles, 1000 points, 1.11
+1000 axis-aligned rectangles, 1000 axis-aligned rectangles, 1.64
+1000 axis-aligned rectangles, 1000 rotated rectangles, 1.63
+1000 axis-aligned rectangles, 1000 polygons, 1.74
+1000 rotated rectangles, 1000 points, 1.12
+1000 rotated rectangles, 1000 axis-aligned rectangles, 1.64
+1000 rotated rectangles, 1000 rotated rectangles, 1.66
+1000 rotated rectangles, 1000 polygons, 1.73
+1000 polygons, 1000 points, 1.56
+1000 polygons, 1000 axis-aligned rectangles, 3.13
+1000 polygons, 1000 rotated rectangles, 3.1
+1000 polygons, 1000 polygons, 3.23
+1000 axis-aligned rectangles, 4325 points, 4.48
+1000 axis-aligned rectangles, 4325 axis-aligned rectangles, 6.82
+1000 axis-aligned rectangles, 4325 rotated rectangles, 6.67
+1000 axis-aligned rectangles, 4325 polygons, 6.87
+1000 rotated rectangles, 4325 points, 4.83
+1000 rotated rectangles, 4325 axis-aligned rectangles, 6.82
+1000 rotated rectangles, 4325 rotated rectangles, 6.69
+1000 rotated rectangles, 4325 polygons, 6.89
+1000 polygons, 4325 points, 7.05
+1000 polygons, 4325 axis-aligned rectangles, 15.1
+1000 polygons, 4325 rotated rectangles, 15.09
+1000 polygons, 4325 polygons, 15.14
+4325 axis-aligned rectangles, 1000 points, 4.33
+4325 axis-aligned rectangles, 1000 axis-aligned rectangles, 6.56
+4325 axis-aligned rectangles, 1000 rotated rectangles, 6.58
+4325 axis-aligned rectangles, 1000 polygons, 7.03
+4325 rotated rectangles, 1000 points, 4.23
+4325 rotated rectangles, 1000 axis-aligned rectangles, 6.78
+4325 rotated rectangles, 1000 rotated rectangles, 6.87
+4325 rotated rectangles, 1000 polygons, 7.24
+4325 polygons, 1000 points, 5.87
+4325 polygons, 1000 axis-aligned rectangles, 11.75
+4325 polygons, 1000 rotated rectangles, 11.45
+4325 polygons, 1000 polygons, 12.51
+4325 axis-aligned rectangles, 4325 points, 18.4
+4325 axis-aligned rectangles, 4325 axis-aligned rectangles, 28.4
+4325 axis-aligned rectangles, 4325 rotated rectangles, 29.78
+4325 axis-aligned rectangles, 4325 polygons, 31.21
+4325 rotated rectangles, 4325 points, 18.69
+4325 rotated rectangles, 4325 axis-aligned rectangles, 28.5
+4325 rotated rectangles, 4325 rotated rectangles, 27.93
+4325 rotated rectangles, 4325 polygons, 30.44
+4325 polygons, 4325 points, 24.39
+4325 polygons, 4325 axis-aligned rectangles, 49.03
+4325 polygons, 4325 rotated rectangles, 47.86
+4325 polygons, 4325 polygons, 50.97
