@@ -19,12 +19,6 @@
 	
 	<dependencies>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.geotools</groupId>
 			<artifactId>gt-main</artifactId>
 			<version>${geotools.version}</version>
@@ -90,10 +84,10 @@
 	
 	            <configuration>
 	            	<archive>
-			        	<manifest>
-         						<mainClass>org.tiling.Tiling</mainClass>
-			        	</manifest>
-			        </archive>
+	            	    <manifest>
+	            	        <mainClass>org.tiling.Tiling</mainClass>
+	            	    </manifest>
+	            	</archive>
 	                <descriptorRefs>
 	                    <descriptorRef>jar-with-dependencies</descriptorRef>
 	                </descriptorRefs>
